@@ -1,4 +1,4 @@
-interface PropsUserEntity {
+export interface PropsUserEntity {
     id?: number
     name: string
     login: string
