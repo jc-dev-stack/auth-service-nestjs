@@ -1,14 +1,14 @@
-## Description
+## Descrição
 
 Serviço de autenticação de usuário usando NestJs
 
-## Installation
+## Instalação
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+## Executando o app
 
 ```bash
 # development
@@ -21,7 +21,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Rodando os testes
 
 ```bash
 # unit tests
