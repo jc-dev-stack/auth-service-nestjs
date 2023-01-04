@@ -1,4 +1,4 @@
-import { PropsUserEntity, User } from './../../src/entities/user.entity';
+import { PropsUserEntity, User } from '../../src/app/entities/user.entity';
 type Override = Partial<PropsUserEntity>
 
 export class UserFactory {
