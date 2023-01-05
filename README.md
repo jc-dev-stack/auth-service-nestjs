@@ -8,6 +8,13 @@ Serviço de autenticação de usuário usando NestJs
 $ npm install
 ```
 
+## Variáveis de Ambiente
+
+Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
+
+`DATABASE_URL`="file:./dev.db"
+
+
 ## Executando o app
 
 ```bash
