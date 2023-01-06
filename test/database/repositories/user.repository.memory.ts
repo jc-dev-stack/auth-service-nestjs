@@ -1,4 +1,4 @@
-import { UserRepositoryContract } from 'src/app/repositories/user.repositoy.contract';
+import { UserRepositoryContract } from '../../../src/app/repositories/user.repositoy.contract';
 import { User } from './../../../src/app/entities/user.entity';
 
 export class UserRepositoryMemory implements UserRepositoryContract {
