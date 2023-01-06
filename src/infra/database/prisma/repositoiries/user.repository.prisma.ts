@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma.service';
 export class UserRepositoryPrisma implements UserRepositoryContract {
     constructor(private readonly prisma: PrismaService) { }
 
-    async list(): Promise<User> {
+    async list(): Promise<User[]> {
         throw new Error('Method not implemented.');
     }
 
