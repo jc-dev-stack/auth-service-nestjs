@@ -11,8 +11,6 @@ export interface ResponseUsers {
 export interface ResponseUser {
     user: User
 }
-
-
 @Injectable()
 export class UserService {
     constructor(private readonly repository: UserRepositoryContract) { }
@@ -35,6 +33,16 @@ export class UserService {
         }
     }
 
+    async findById(id: number): Promise<ResponseUser> {
+        const user = await this.repository.findById(id);
+        if (!user) {
+            throw new UserNotfoundError;
+        }
+        return {
+            user
+        }
+    }
+
     async register(data: User): Promise<ResponseUser> {
         const hash = await BcryptTransform.toHash(data.password);
         data.password = hash;
@@ -43,5 +51,4 @@ export class UserService {
             user
         }
     }
-
 }

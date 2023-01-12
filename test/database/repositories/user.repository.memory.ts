@@ -17,4 +17,9 @@ export class UserRepositoryMemory implements UserRepositoryContract {
         return user;
     }
 
+    async findById(id: number): Promise<User> {
+        const index = this.users.findIndex(user => user.id === id);
+        return this.users[index];
+    }
+
 }

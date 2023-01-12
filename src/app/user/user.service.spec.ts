@@ -30,6 +30,18 @@ describe("User service", () => {
     expect(user).toBeTruthy()
   })
 
+  it("should be able to return a user of id: '1'", async () => {
+    const repository = new UserRepositoryMemory();
+    const service = new UserService(repository);
+
+    // id: 1
+    repository.create(UserFactory.make({}))
+
+    const { user } = await service.findById(1);
+    expect(user).toBeTruthy()
+    expect(user).toBe(repository.users[0])
+  })
+
   it("should be able to return a error if login is not the same 'user'", async () => {
     const repository = new UserRepositoryMemory();
     const service = new UserService(repository);
