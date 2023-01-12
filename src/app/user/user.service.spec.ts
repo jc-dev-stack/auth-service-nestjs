@@ -39,4 +39,14 @@ describe("User service", () => {
 
     expect(async () => { return await service.findByLogin("different") }).rejects.toThrow(new UserNotfoundError())
   })
+
+  it("should be able to create a user", async () => {
+    const repository = new UserRepositoryMemory();
+    const service = new UserService(repository);
+
+    const data = UserFactory.make({ password: 'password' });
+
+    const { user } = await service.register(data);
+    expect(user).toBe(repository.users[0])
+  })
 })

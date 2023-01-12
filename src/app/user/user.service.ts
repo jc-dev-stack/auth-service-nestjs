@@ -2,6 +2,7 @@ import { User } from './../entities/user.entity';
 import { UserRepositoryContract } from '../repositories/user.repositoy.contract';
 import { Injectable } from '@nestjs/common';
 import { UserNotfoundError } from './error/user.not-found.error';
+import { BcryptTransform } from './transform/bcrypt.transform';
 
 export interface ResponseUsers {
     users: User[]
@@ -10,6 +11,7 @@ export interface ResponseUsers {
 export interface ResponseUser {
     user: User
 }
+
 
 @Injectable()
 export class UserService {
@@ -32,4 +34,14 @@ export class UserService {
             user
         }
     }
+
+    async register(data: User): Promise<ResponseUser> {
+        const hash = await BcryptTransform.toHash(data.password);
+        data.password = hash;
+        const user = await this.repository.create(data);
+        return {
+            user
+        }
+    }
+
 }
