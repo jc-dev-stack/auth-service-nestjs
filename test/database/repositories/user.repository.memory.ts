@@ -22,4 +22,11 @@ export class UserRepositoryMemory implements UserRepositoryContract {
         return this.users[index];
     }
 
+    async update(id: number, user: Partial<Omit<User, 'id' | 'password'>>): Promise<User> {
+        const index = this.users.findIndex(user => user.id == id);
+        this.users[index].login = user.login;
+        this.users[index].name = user.name;
+        return this.users[index];
+    }
+
 }
