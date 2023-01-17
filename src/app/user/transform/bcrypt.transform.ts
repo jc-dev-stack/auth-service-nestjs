@@ -8,7 +8,7 @@ export class BcryptTransform {
     }
 
     static async compareHash(hash: string, data: string): Promise<boolean> {
-        const isMatch = await bcrypt.compare(data, hash);
+        const isMatch = await bcrypt.compare(data, hash)
         return isMatch;
     }
 }

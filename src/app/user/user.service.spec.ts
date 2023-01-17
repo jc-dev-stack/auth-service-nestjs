@@ -2,6 +2,8 @@ import { UserFactory } from './../../../test/factories/user.factory';
 import { UserRepositoryMemory } from './../../../test/database/repositories/user.repository.memory';
 import { UserService } from './user.service';
 import { UserNotfoundError } from './error/user.not-found.error';
+import { BcryptTransform } from './transform/bcrypt.transform';
+
 describe("User service", () => {
   it("should be able to return a list of users", async () => {
     const repository = new UserRepositoryMemory();
@@ -60,5 +62,26 @@ describe("User service", () => {
 
     const { user } = await service.register(data);
     expect(user).toBe(repository.users[0])
+  })
+
+  it("should be able to return a true if user is match", async () => {
+    const repository = new UserRepositoryMemory();
+    const service = new UserService(repository);
+    const password = await BcryptTransform.toHash("password");
+    repository.create(UserFactory.make({ password }));
+    const confirmPassword = "password";
+    const isMatch = await service.verifyUser(1, confirmPassword);
+    expect(isMatch).toBe(true);
+  })
+
+  it("should be able to update a user", async () => {
+    const repository = new UserRepositoryMemory();
+    const service = new UserService(repository);
+    const password = await BcryptTransform.toHash("password");
+    repository.create(UserFactory.make({ password }));
+    const { user } = await service.update(1, "password", "changeuser", "changelogin")
+    expect(user).toBeTruthy();
+    expect(user.login).toBe("changelogin")
+    expect(user.name).toBe("changeuser")
   })
 })
