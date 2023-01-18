@@ -5,6 +5,11 @@ import { UserNotfoundError } from './error/user.not-found.error';
 import { BcryptTransform } from './transform/bcrypt.transform';
 import { CredentialError } from './error/credential.error';
 
+export interface RequestUser {
+    login: string
+    name: string
+    password: string
+}
 export interface ResponseUsers {
     users: User[]
 }
@@ -51,16 +56,21 @@ export class UserService {
         }
     }
 
-    async register(data: User): Promise<ResponseUser> {
-        const hash = await BcryptTransform.toHash(data.password);
-        data.password = hash;
+    async register({ password, login, name }: RequestUser): Promise<ResponseUser> {
+        const hash = await BcryptTransform.toHash(password);
+        password = hash;
+        const data = new User({
+            login,
+            name,
+            password
+        })
         const user = await this.repository.create(data);
         return {
             user
         }
     }
 
-    async update(id: number, confirmPassword: string, name?: string, login?: string): Promise<ResponseUser> {
+    async update(id: number, confirmPassword: string, { login, name }: Partial<Omit<RequestUser, "password">>): Promise<ResponseUser> {
         if (!this.verifyUser(id, confirmPassword)) {
             throw new CredentialError;
         }

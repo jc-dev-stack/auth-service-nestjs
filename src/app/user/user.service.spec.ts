@@ -58,9 +58,11 @@ describe("User service", () => {
     const repository = new UserRepositoryMemory();
     const service = new UserService(repository);
 
-    const data = UserFactory.make({ password: 'password' });
-
-    const { user } = await service.register(data);
+    const { user } = await service.register({
+      name: "User",
+      login: "user",
+      password: "passoword"
+    });
     expect(user).toBe(repository.users[0])
   })
 
@@ -79,7 +81,10 @@ describe("User service", () => {
     const service = new UserService(repository);
     const password = await BcryptTransform.toHash("password");
     repository.create(UserFactory.make({ password }));
-    const { user } = await service.update(1, "password", "changeuser", "changelogin")
+    const { user } = await service.update(1, "password", {
+      login: "changelogin",
+      name: "changeuser"
+    })
     expect(user).toBeTruthy();
     expect(user.login).toBe("changelogin")
     expect(user.name).toBe("changeuser")
