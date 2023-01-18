@@ -71,7 +71,8 @@ export class UserService {
     }
 
     async update(id: number, confirmPassword: string, { login, name }: Partial<Omit<RequestUser, "password">>): Promise<ResponseUser> {
-        if (!this.verifyUser(id, confirmPassword)) {
+        const isMatch = await this.verifyUser(id, confirmPassword);
+        if (!isMatch) {
             throw new CredentialError;
         }
         const user = await this.repository.update(id, {
