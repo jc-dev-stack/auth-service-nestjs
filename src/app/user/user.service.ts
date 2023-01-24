@@ -1,8 +1,8 @@
+import { HashFactory } from './../../../test/factories/hash.factory';
 import { User } from './../entities/user.entity';
 import { UserRepositoryContract } from '../repositories/user.repositoy.contract';
 import { Injectable } from '@nestjs/common';
 import { UserNotfoundError } from './error/user.not-found.error';
-import { BcryptTransform } from './transform/bcrypt.transform';
 import { CredentialError } from './error/credential.error';
 
 export interface RequestUser {
@@ -42,7 +42,7 @@ export class UserService {
 
     async verifyUser(id: number, confirmPassword: string): Promise<boolean> {
         const user = await this.repository.findById(id);
-        const isMatch = BcryptTransform.compareHash(user.password, confirmPassword);
+        const isMatch = await HashFactory.compare(confirmPassword, user.password);
         return isMatch;
     }
 
@@ -57,7 +57,7 @@ export class UserService {
     }
 
     async register({ password, login, name }: RequestUser): Promise<ResponseUser> {
-        const hash = await BcryptTransform.toHash(password);
+        const hash = await HashFactory.generate(password);
         password = hash;
         const data = new User({
             login,
