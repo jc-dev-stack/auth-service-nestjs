@@ -1,6 +1,6 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '../entities/user.entity';
+import { LocalAuthGuard } from './local-auth.guard';
 
 interface RequestUser {
     user: User
@@ -8,7 +8,7 @@ interface RequestUser {
 
 @Controller('auth')
 export class AuthController {
-    @UseGuards(AuthGuard('local'))
+    @UseGuards(LocalAuthGuard)
     @Post('/login')
     async login(@Request() req: RequestUser) {
         return req.user;
