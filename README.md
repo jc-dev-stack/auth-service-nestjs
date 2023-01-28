@@ -1,3 +1,5 @@
+# Autenticação de usuário usando NestJS
+
 ## Descrição
 
 Serviço de autenticação de usuário usando NestJs
@@ -41,8 +43,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-# Autenticação de usuário usando NestJS
 
+
+## Variáveis de Ambiente
+
+Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
+
+`DATABASE_URL`=
+
+`JWT_KEY`=
 
 
 ## Documentação da API
