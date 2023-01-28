@@ -1,3 +1,4 @@
+import { HashFactory } from './../../../test/factories/hash.factory';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities/user.entity';
@@ -20,7 +21,8 @@ export class AuthService {
 
     async validateUser(username: string, pass: string): Promise<any> {
         const { user } = await this.userService.findByLogin(username);
-        if (user && user.password == pass) {
+        const isMatch = await HashFactory.compare(pass, user.password);
+        if (user && isMatch) {
             const { password, ...result } = user;
             return result;
         }
