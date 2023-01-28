@@ -1,5 +1,6 @@
+import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 import { CreateUserDTO } from './dtos/create-user.dto';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDTO } from './dtos/update-user.dto';
 
@@ -7,12 +8,14 @@ import { UpdateUserDTO } from './dtos/update-user.dto';
 export class UserController {
     constructor(private readonly service: UserService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get('')
     async all() {
         const { users } = await this.service.list();
         return users;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async byId(@Param('id') id: string) {
         const { user } = await this.service.findById(parseInt(id));
@@ -27,6 +30,7 @@ export class UserController {
         return user;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
         @Param('id') id: string,
