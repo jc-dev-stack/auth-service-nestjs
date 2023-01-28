@@ -19,12 +19,11 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
 
-    async validateUser(username: string, pass: string): Promise<any> {
+    async validateUser(username: string, pass: string): Promise<User> {
         const { user } = await this.userService.findByLogin(username);
         const isMatch = await HashFactory.compare(pass, user.password);
         if (user && isMatch) {
-            const { password, ...result } = user;
-            return result;
+            return user;
         }
         return null;
     }
