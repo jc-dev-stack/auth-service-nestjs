@@ -1,13 +1,12 @@
 import * as bcrypt from "bcrypt";
 
-export class BcryptTransform {
-    static async toHash(data: string): Promise<string> {
+export class HashFactory {
+    static async generate(data: string) {
         const saltOrRounds = 10;
         const hash = await bcrypt.hash(data, saltOrRounds);
         return hash
     }
-
-    static async compareHash(hash: string, data: string): Promise<boolean> {
+    static async compare(data: string, hash: string) {
         const isMatch = await bcrypt.compare(data, hash)
         return isMatch;
     }
